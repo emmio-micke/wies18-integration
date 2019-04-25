@@ -19,7 +19,7 @@ $no_of_products = $_GET['no'] ?? null;
 $product_id = $_GET['id'] ?? null;
 
 // Get products.
-$products = null; // Change this to actually get the products.
+$products = $products_object->getProducts($product_id, $no_of_products);
 
 // Print out all products in a table.
 ?>
@@ -39,7 +39,20 @@ $products = null; // Change this to actually get the products.
         </tr>
     </thead>
     <tbody>
-<?php // Print out all the products. ?>
+<?php foreach ($products as $product) : ?>
+        <tr>
+            <td><?php echo $product['productCode']; ?></td>
+            <td><?php echo $product['productName']; ?></td>
+            <td><?php echo $product['productImage']; ?></td>
+            <td><?php echo $product['productLine']; ?></td>
+            <td><?php echo $product['productScale']; ?></td>
+            <td><?php echo $product['productVendor']; ?></td>
+            <td><?php echo $product['productDescription']; ?></td>
+            <td><?php echo $product['quantityInStock']; ?></td>
+            <td><?php echo $product['buyPrice']; ?></td>
+            <td><?php echo $product['MSRP']; ?></td>
+        </tr>
+<?php endforeach; ?>
     </tbody>
 </table>
 </body>

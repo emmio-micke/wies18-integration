@@ -16,7 +16,6 @@ include_once '../classes/product.php';
 $products_object = new \wiesapi\Product();
 
 // Get the posted data.
-// Ok, so this isn't self explanatory, but what does this do? Google it!
 $product_data = json_decode(file_get_contents('php://input'));
 
 // Setup response structure.
@@ -25,16 +24,16 @@ $response = [
 ];
 
 // Try to create product.
-// Create similar responses as in the read.php file, depending on if the product
-// was successfully created or not.
-if (/* product was successfully created */) {
-    // Set a suitable response code.
-    // Set a readable message.
-    // Add the newly created product to results.
+if ($products_object->createProduct($product_data)) {
+    http_response_code(201);
+
+    $response['info']['message'] = 'Product was created';
+    $response['results'] = $product_data;
 } else {
-    // Set a suitable response code.
-    // Set a readable message.
+    http_response_code(503);
+
+    $response['info']['message'] = 'Could not create product';
 }
 
 // Format response.
-// Same as last one.
+echo json_encode($response);

@@ -1,11 +1,11 @@
 <pre>
 <?php
 
-$url = 'https://randomuser.me/api/';
+$url = 'http://api.icndb.com/jokes/random';
 $file_content = file_get_contents($url);
 
-var_dump($file_content);
+// var_dump($file_content);
 
-$person = json_decode($file_content);
+$value = json_decode($file_content);
 
-var_dump($person);
+var_dump($value->value->joke);

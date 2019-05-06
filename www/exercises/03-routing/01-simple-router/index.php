@@ -38,40 +38,65 @@ $response = [
     'results' => null
 ];
 
-$obj = new $class;
+if (empty($class)) {
+    http_response_code(400);
+} else {
+    $obj = new $class;
 
-// Setup router.
-switch ($request_method) {
-    // Create record.
-    case 'post':
-        if ($obj->create($body_data)) {
-            http_response_code(201);
-            $response['results'] = $body_data;
-            $response['info']['no'] = 1;
-            $response['info']['message'] = "Item created ok.";
-        } else {
-            http_response_code(503);
-            $response['info']['no'] = 0;
-            $response['info']['message'] = "Couldn't create item.";
-        }
-        break;
+    // Setup router.
+    switch ($request_method) {
+        // Delete record.
+        case 'delete':
+            // Handle delete.
+            break;
 
-    // Everything else: GET.
-    default:
-        $data = $obj->get($args);
+        // Create record.
+        case 'post':
+            if ($obj->create($body_data)) {
+                http_response_code(201);
+                $response['results'] = $body_data;
+                $response['info']['no'] = 1;
+                $response['info']['message'] = "Item created ok.";
+            } else {
+                http_response_code(503);
+                $response['info']['no'] = 0;
+                $response['info']['message'] = "Couldn't create item.";
+            }
+            break;
 
-        if ($data) {
-            http_response_code(200);
-            $response['info']['no'] = count($data);
-            $response['info']['message'] = "Returned items.";
-            $response['results'] = $data;
-        } else {
-            http_response_code(404);
-            $response['info']['message'] = "Couldn't find any items.";
-            $response['info']['no'] = 0;
-        }
-        break;
+        // Update record.
+        case 'put':
+            if ($obj->update($body_data)) {
+                http_response_code(200);
+                $response['results'] = $body_data;
+                $response['info']['no'] = 1;
+                $response['info']['message'] = "Item updated ok.";
+            } else {
+                http_response_code(503);
+                $response['info']['no'] = 0;
+                $response['info']['message'] = "Couldn't update item.";
+            }
+            break;
+        
+
+        // Everything else: GET.
+        default:
+            $data = $obj->get($args);
+
+            if ($data) {
+                http_response_code(200);
+                $response['info']['no'] = count($data);
+                $response['info']['message'] = "Returned items.";
+                $response['results'] = $data;
+            } else {
+                http_response_code(404);
+                $response['info']['message'] = "Couldn't find any items.";
+                $response['info']['no'] = 0;
+            }
+            break;
+    }
 }
+
 
 header("Content-Type: application/json; charset=UTF-8");
 echo json_encode($response);

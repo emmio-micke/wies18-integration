@@ -1,14 +1,10 @@
 <?php
 
-$headers = [
-    'Authorization' => 'Basic ' . base64_encode('other:hemligt')
-];
-
 // Create a stream
 $options = [
     'http' => [
         'method' => 'GET',
-        'header' => 'Authorization: Basic ' . base64_encode('other:hemligt'),
+        'header' => 'Authorization: Basic ' . base64_encode('other:hemligt')
     ],
     'ssl' => [
         'verify_peer' => false,
@@ -18,7 +14,7 @@ $options = [
   
 $context = stream_context_create($options);
 
-$url = 'https://medint:8890/exercises/05-authentication/01-basic/mypage.html';
+$url = 'https://medint:8890/exercises/04-authentication/01-basic/mypage.html';
 
 // Open the file using the HTTP headers set above
 $content = file_get_contents($url, false, $context);

@@ -1,7 +1,7 @@
 AuthType Basic
 AuthName "Password Protected Area"
 AuthUserFile "/Users/micke/www/projects/medieinstitutet/WIES18/Systemintegration och integration med tredjepartssystem/repo/www/exercises/04-authentication/01-basic/.htpasswd"
-Require user micke # valid-user
+Require valid-user
 
 <Files "mypage.html">
     Require user other

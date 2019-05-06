@@ -18,7 +18,7 @@ class API
     public function create($data)
     {
         // Setup query.
-        $sql = "INSERT INTO products (" . implode(',', $this->fields) . ") " .
+        $sql = "INSERT INTO $this->table (" . implode(',', $this->fields) . ") " .
             'VALUES (:' . implode(', :', $this->fields) . ')';
 
         // Prepare query.
@@ -37,7 +37,7 @@ class API
                 $pdo_type = PDO::PARAM_STR;
             }
 
-            $statement->bindValue($field['Field'], filter_var($data->{$field['Field']}, $filter), $pdo_type);
+            $statement->bindValue($field['Field'], filter_var($data->{$field['Field']}, FILTER_SANITIZE_STRING), $pdo_type);
         }
 
         // Execute query and return result.
@@ -66,5 +66,37 @@ class API
     public function getFields()
     {
         return $this->db->query("SHOW COLUMNS FROM $this->table;")->fetchAll();
+    }
+
+    public function update($data)
+    {
+        $id = null;
+
+        if (isset($data->{$this->table_id})) {
+            $id = $data->{$this->table_id};
+        } else {
+            return false;
+        }
+
+        // Setup query.
+        $arr_fields = [];
+        $sql = "UPDATE $this->table SET ";
+        foreach ($data as $field_name => $field_value) {
+            if ($field_name != $this->table_id) {
+                $arr_fields[] = $field_name . " = '" . $field_value . "' ";
+            }
+        }
+        $sql .= implode(', ', $arr_fields);
+
+        $sql .= " WHERE $this->table_id = :table_id ";
+
+        // Prepare query.
+        $statement = $this->db->prepare($sql);
+
+        // Bind values.
+        $statement->bindValue('table_id', $id, PDO::PARAM_STR);
+
+        // Execute query and return result.
+        return $statement->execute();
     }
 }

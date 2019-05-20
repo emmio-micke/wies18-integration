@@ -4,7 +4,11 @@
 // Set URL.
 $url = 'http://jsonplaceholder.typicode.com/posts/3';
 
-$data = '{"title":"Hello","body":"World"}';
+$obj = [
+    'title' => 'Hello',
+    'body' => 'World'
+];
+$data = json_encode($obj);
 
 // Create a curl instance.
 $ch = curl_init($url);
@@ -23,7 +27,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
 // Enable headers.
-curl_setopt($ch, CURLOPT_HEADER, 1);
+curl_setopt($ch, CURLOPT_HEADER, true);
 
 // Perform the request and get the response.
 $response = curl_exec($ch);

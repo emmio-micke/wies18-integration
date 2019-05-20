@@ -15,7 +15,7 @@ $ch = curl_init($url);
 
 // Setup curl options.
 // We want a POST request. This is a special case.
-curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 
 // This is the data we want to post.
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

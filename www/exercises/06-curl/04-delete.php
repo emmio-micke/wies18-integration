@@ -15,7 +15,7 @@ curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 // Enable headers.
-curl_setopt($ch, CURLOPT_HEADER, 1);
+curl_setopt($ch, CURLOPT_HEADER, true);
 
 // Perform the request and get the response.
 $response = curl_exec($ch);

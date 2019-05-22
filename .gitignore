@@ -1,2 +1,4 @@
 www/exercises/08-stripe/01-stripe/charges
 www/exercises/08-stripe/01-stripe/vendor
+.jshintrc
+composer.lock
